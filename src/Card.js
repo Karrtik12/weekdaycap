@@ -42,14 +42,16 @@ const Card = ({ item }) => {
                 {companyName}
               </Typography>
               <Typography
-                variant="subtitle1"
+                variant="caption"
+                fontSize="1.2rem"
                 gutterBottom
                 style={{ textTransform: "capitalize" }}
               >
                 {jobRole}
               </Typography>
+              <br />
               <Typography
-                variant="body2"
+                variant="caption"
                 color="textSecondary"
                 style={{ textTransform: "capitalize" }}
               >
@@ -64,7 +66,12 @@ const Card = ({ item }) => {
               gap: "10px",
             }}
           >
-            <Typography variant="body1" gutterBottom>
+            <Typography
+              variant="caption"
+              color="textSecondary"
+              fontSize="1rem"
+              gutterBottom
+            >
               Estimated Salary:
               {!minJdSalary
                 ? ` ${salaryCurrencyCode} ${maxJdSalary}`
@@ -95,7 +102,9 @@ const Card = ({ item }) => {
             <Button color="primary" style={{ bottom: 0, alignSelf: "center" }}>
               View Job
             </Button>
-            <Typography>Minimum Experience</Typography>
+            <Typography variant="caption" fontSize="1rem" color="textSecondary">
+              Minimum Experience
+            </Typography>
             <Typography>8 Years</Typography>
             <Button
               style={{

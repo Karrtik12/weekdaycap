@@ -45,39 +45,42 @@ const App = () => {
         }
       });
   };
+
+  const filterCheck = function (filters, item) {
+    if (
+      filters.selectedExperience !== "" &&
+      (filters.selectedExperience < item.minExp ||
+        filters.selectedExperience > item.maxExp)
+    )
+      return false;
+    if (
+      filters.selectedRole.length !== 0 &&
+      filters.selectedRole.includes(item.jobRole) === false
+    )
+      return false;
+    if (
+      filters.selectedSalary !== "" &&
+      (filters.selectedSalary < item.minJdSalary ||
+        filters.selectedSalary > item.maxJdSalary)
+    )
+      return false;
+    if (
+      filters.selectedCompanyName !== "" &&
+      item.companyName
+        .toLowerCase()
+        .includes(filters.selectedCompanyName.toLowerCase()) === false
+    )
+      return false;
+    return true;
+  };
+
   const renderData = (filters) => {
     console.log(filters);
     return (
       <div style={{ margin: "50px" }}>
         <Grid container spacing={10}>
           {data
-            .filter((item) => {
-              if (
-                filters.selectedExperience !== "" &&
-                (filters.selectedExperience < item.minExp ||
-                  filters.selectedExperience > item.maxExp)
-              )
-                return false;
-              if (
-                filters.selectedRole.length !== 0 &&
-                filters.selectedRole.includes(item.jobRole) === false
-              )
-                return false;
-              if (
-                filters.selectedSalary !== "" &&
-                (filters.selectedSalary < item.minJdSalary ||
-                  filters.selectedSalary > item.maxJdSalary)
-              )
-                return false;
-              if (
-                filters.selectedCompanyName !== "" &&
-                item.companyName
-                  .toLowerCase()
-                  .includes(filters.selectedCompanyName.toLowerCase()) === false
-              )
-                return false;
-              return true;
-            })
+            .filter((item) => filterCheck(filters, item))
             .map((item, index) => (
               <Card key={index} item={item} />
             ))}
