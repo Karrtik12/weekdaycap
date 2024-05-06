@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Card from "./Card.js";
-import { Grid } from "@mui/material";
+import { Grid, IconButton, InputAdornment } from "@mui/material";
 import InfiniteScroll from "./InfiniteScroll";
 import TextField from "@mui/material/TextField";
 import "./App.css";
@@ -60,7 +60,9 @@ const App = () => {
       return false;
     if (
       filters.selectedSalary !== "" &&
-      (filters.selectedSalary < item.minJdSalary ||
+      (!item.minJdSalary ||
+        !item.maxJdSalary ||
+        filters.selectedSalary < item.minJdSalary ||
         filters.selectedSalary > item.maxJdSalary)
     )
       return false;
@@ -88,12 +90,41 @@ const App = () => {
       </div>
     );
   };
+
+  const clearField = (field) => {
+    switch (field) {
+      case "selectedRole":
+        setSelectedRole([]);
+        break;
+      case "selectedEmployees":
+        setSelectedEmployees([]);
+        break;
+      case "selectedExperience":
+        setSelectedExperience("");
+        break;
+      case "selectedRemote":
+        setSelectedRemote([]);
+        break;
+      case "selectedSalary":
+        setSelectedSalary("");
+        break;
+      case "selectedCompanyName":
+        setSelectedCompanyName("");
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <div className="filters">
-        <FormControl sx={{ m: 1, width: "150px" }}>
+        <FormControl
+          sx={{ m: 1, width: "200px", display: "flex", flexDirection: "row" }}
+        >
           <InputLabel>Role</InputLabel>
           <Select
+            style={{ width: "80%" }}
             multiple
             value={selectedRole}
             onChange={(e) => setSelectedRole(e.target.value)}
@@ -105,10 +136,19 @@ const App = () => {
               </MenuItem>
             ))}
           </Select>
+          <IconButton
+            style={{ border: "1px solid #b1b1b1", borderRadius: "3px" }}
+            onClick={() => clearField("selectedRole")}
+          >
+            x
+          </IconButton>
         </FormControl>
-        <FormControl sx={{ m: 1, width: "150px" }}>
+        <FormControl
+          sx={{ m: 1, width: "200px", display: "flex", flexDirection: "row" }}
+        >
           <InputLabel>Employees</InputLabel>
           <Select
+            style={{ width: "80%" }}
             multiple
             value={selectedEmployees}
             onChange={(e) => setSelectedEmployees(e.target.value)}
@@ -120,10 +160,19 @@ const App = () => {
               </MenuItem>
             ))}
           </Select>
+          <IconButton
+            style={{ border: "1px solid #b1b1b1", borderRadius: "3px" }}
+            onClick={() => clearField("selectedEmployees")}
+          >
+            x
+          </IconButton>
         </FormControl>
-        <FormControl sx={{ m: 1, width: "150px" }}>
+        <FormControl
+          sx={{ m: 1, width: "200px", display: "flex", flexDirection: "row" }}
+        >
           <InputLabel>Experience</InputLabel>
           <Select
+            style={{ width: "80%" }}
             value={selectedExperience}
             onChange={(e) => setSelectedExperience(e.target.value)}
             input={<OutlinedInput label="Multiple Select" />}
@@ -134,10 +183,19 @@ const App = () => {
               </MenuItem>
             ))}
           </Select>
+          <IconButton
+            style={{ border: "1px solid #b1b1b1", borderRadius: "3px" }}
+            onClick={() => clearField("selectedExperience")}
+          >
+            x
+          </IconButton>
         </FormControl>
-        <FormControl sx={{ m: 1, width: "150px" }}>
+        <FormControl
+          sx={{ m: 1, width: "200px", display: "flex", flexDirection: "row" }}
+        >
           <InputLabel>Remote</InputLabel>
           <Select
+            style={{ width: "80%" }}
             multiple
             value={selectedRemote}
             onChange={(e) => setSelectedRemote(e.target.value)}
@@ -149,11 +207,20 @@ const App = () => {
               </MenuItem>
             ))}
           </Select>
+          <IconButton
+            style={{ border: "1px solid #b1b1b1", borderRadius: "3px" }}
+            onClick={() => clearField("selectedRemote")}
+          >
+            x
+          </IconButton>
         </FormControl>
 
-        <FormControl sx={{ m: 1, width: "150px" }}>
+        <FormControl
+          sx={{ m: 1, width: "200px", display: "flex", flexDirection: "row" }}
+        >
           <InputLabel>Salary</InputLabel>
           <Select
+            style={{ width: "80%" }}
             value={selectedSalary}
             onChange={(e) => setSelectedSalary(e.target.value)}
             input={<OutlinedInput label="Multiple Select" />}
@@ -164,15 +231,31 @@ const App = () => {
               </MenuItem>
             ))}
           </Select>
+          <IconButton
+            style={{ border: "1px solid #b1b1b1", borderRadius: "3px" }}
+            onClick={() => clearField("selectedSalary")}
+          >
+            x
+          </IconButton>
         </FormControl>
-        <TextField
-          id="outlined-basic"
-          label="Company Name"
-          variant="outlined"
-          onChange={(e) => setSelectedCompanyName(e.target.value)}
+        <FormControl
+          sx={{ m: 1, width: "200px", display: "flex", flexDirection: "row" }}
         >
-          {selectedCompanyName}
-        </TextField>
+          <TextField
+            style={{ width: "80%" }}
+            id="outlined-basic"
+            label="Company Name"
+            variant="outlined"
+            value={selectedCompanyName} // Set value prop to selectedCompanyName
+            onChange={(e) => setSelectedCompanyName(e.target.value)}
+          />
+          <IconButton
+            style={{ border: "1px solid #b1b1b1", borderRadius: "3px" }}
+            onClick={() => clearField("selectedCompanyName")}
+          >
+            x
+          </IconButton>
+        </FormControl>
       </div>
       <InfiniteScroll
         filters={{
