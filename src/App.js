@@ -1,61 +1,67 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import Card from "./Card.js";
 import { Grid } from "@mui/material";
+import InfiniteScroll from "./InfiniteScroll";
+import TextField from "@mui/material/TextField";
+import "./App.css";
+import {
+  OutlinedInput,
+  InputLabel,
+  MenuItem,
+  Select,
+  FormControl,
+} from "@mui/material";
+import {
+  Roles,
+  NumberOfEmployees,
+  Experience,
+  Remote,
+  MinimumBasePaySalary,
+} from "./Dropdown.js";
 
-function App() {
+const App = () => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [selectedRole, setSelectedRole] = useState([]);
+  const [selectedEmployees, setSelectedEmployees] = useState([]);
+  const [selectedExperience, setSelectedExperience] = useState("");
+  const [selectedRemote, setSelectedRemote] = useState([]);
+  const [selectedSalary, setSelectedSalary] = useState("");
+  const [selectedCompanyName, setSelectedCompanyName] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.post(
-          "https://api.weekday.technology/adhoc/getSampleJdJSON",
-          { limit: 10, offset: (page - 1) * 10 }
-        );
-        setData((prevData) => [...prevData, ...response.data["jdList"]]);
-        setPage((prevPage) => prevPage + 1);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-      setLoading(false);
-    };
-
-    fetchData();
-  }, [page]);
-
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      loading
-    ) {
-      return;
-    }
-    // User has scrolled to the bottom, fetch more data
-    setPage((prevPage) => prevPage + 1);
+  const fetchData = async (page) => {
+    axios
+      .post("https://api.weekday.technology/adhoc/getSampleJdJSON", {
+        limit: 10,
+        offset: (page - 1) * 10,
+      })
+      .then((res) => {
+        if (res.data["jdList"].length === 0) {
+          setHasMore(false);
+        } else {
+          // console.log(res.data["jdList"]);
+          setData([...data, ...res.data["jdList"]]);
+        }
+      });
   };
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
-    <div style={{ margin: "50px" }}>
-      <Grid container spacing={10}>
-        {data.map((item, index) => (
-          <Card key={index} item={item} />
-        ))}
-        {loading && <p>Loading...</p>}
-      </Grid>
-    </div>
+    <>
+      <InfiniteScroll
+        filters={{
+          selectedEmployees,
+          selectedExperience,
+          selectedRole,
+          selectedSalary,
+          selectedCompanyName,
+        }}
+        fetchData={fetchData}
+        renderData={renderData}
+        hasMore={hasMore}
+      />
+    </>
   );
-}
+};
 
 export default App;
