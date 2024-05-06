@@ -34,7 +34,11 @@ const Card = ({ item }) => {
           </Grid>
           <Grid item>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
+              <Typography
+                variant="subtitle2"
+                gutterBottom
+                style={{ fontWeight: "bold", color: "#757575" }}
+              >
                 {companyName}
               </Typography>
               <Typography
@@ -53,44 +57,65 @@ const Card = ({ item }) => {
               </Typography>
             </CardContent>
           </Grid>
-          <CardContent>
+          <CardContent
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+            }}
+          >
             <Typography variant="body1" gutterBottom>
-              Estimated Salary:{" "}
-              {`${salaryCurrencyCode} ${minJdSalary} - ${maxJdSalary}`}
+              Estimated Salary:
+              {!minJdSalary
+                ? ` ${salaryCurrencyCode} ${maxJdSalary}`
+                : !minJdSalary
+                ? ` ${salaryCurrencyCode} ${minJdSalary}`
+                : ` ${salaryCurrencyCode} ${minJdSalary} - ${maxJdSalary}`}
             </Typography>
-            <div style={{ position: "relative" }}>
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  background:
-                    "linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))",
-                  zIndex: 1,
-                }}
-              />
-              <Typography
-                variant="body2"
-                gutterBottom
-                style={{
-                  position: "relative",
-                  zIndex: 2,
-                  maxHeight: "100px",
-                  color:
-                    "linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))",
-                  overflow: "hidden",
-                }}
-              >
-                {jobDetailsFromCompany}
-              </Typography>
-            </div>
-            <Button
-              color="primary"
-              style={{ position: "relative", bottom: 0, left: "50%" }}
+            <Typography
+              variant="body2"
+              style={{ textTransform: "capitalize", fontWeight: "bold" }}
             >
+              About Us:
+            </Typography>
+            <Typography
+              variant="body2"
+              gutterBottom
+              style={{
+                position: "relative",
+                zIndex: 2,
+                maxHeight: "300px",
+                overflow: "hidden",
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, black, transparent)",
+              }}
+            >
+              {jobDetailsFromCompany}
+            </Typography>
+            <Button color="primary" style={{ bottom: 0, alignSelf: "center" }}>
               View Job
+            </Button>
+            <Typography>Minimum Experience</Typography>
+            <Typography>8 Years</Typography>
+            <Button
+              style={{
+                background: "#54EFC2",
+                color: "black",
+                textTransform: "initial",
+                fontWeight: "400",
+              }}
+            >
+              ⚡️ Easy Apply{" "}
+            </Button>
+            <Button
+              style={{
+                background: "#4943DA",
+                color: "white",
+                textTransform: "initial",
+                fontWeight: "400",
+              }}
+            >
+              ⚡️ Unlock Referral Asks
             </Button>
           </CardContent>
         </Grid>
