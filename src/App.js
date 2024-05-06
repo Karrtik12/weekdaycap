@@ -193,7 +193,7 @@ const App = () => {
         <FormControl
           sx={{ m: 1, width: "200px", display: "flex", flexDirection: "row" }}
         >
-          <InputLabel>Remote</InputLabel>
+          <InputLabel>Job Type</InputLabel>
           <Select
             style={{ width: "80%" }}
             multiple
