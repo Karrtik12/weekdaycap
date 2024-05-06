@@ -46,7 +46,16 @@ function App() {
     };
   }, []);
 
-  return <div>{/* Card code here */}</div>;
+  return (
+    <div style={{ margin: "50px" }}>
+      <Grid container spacing={10}>
+        {data.map((item, index) => (
+          <Card key={index} item={item} />
+        ))}
+        {loading && <p>Loading...</p>}
+      </Grid>
+    </div>
+  );
 }
 
 export default App;
